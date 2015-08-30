@@ -17,7 +17,7 @@ feature 'restaurants page' do
     end
   end
 
-  context 'when restaurants are added in the backend' do
+  context 'when adding a restaurant in the backend' do
     before do
       Restaurant.create name: 'Japanese Canteen'
       visit restaurants_path
@@ -50,7 +50,7 @@ feature 'restaurants page' do
     end
   end
 
-  context 'when clicking on a restaurant' do
+  context 'when viewing a restaurant' do
     let!(:jcan) {Restaurant.create name: 'Japanese Canteen'}
 
     before do
@@ -64,6 +64,24 @@ feature 'restaurants page' do
 
     scenario 'lets user view the restaurant' do
       expect(page).to have_content 'Japanese Canteen'
+    end
+  end
+
+  context 'when updating a restaurant' do
+    before do
+      add_a_restaurant 'Japanese Canteen', 'My favourite'
+    end
+
+    scenario 'takes user back to restaurants page' do
+      expect(current_path).to eq restaurants_path
+    end
+
+    scenario 'restaurant updates correctly' do
+      click_link 'Edit Japanese Canteen'
+      fill_in 'Name', with: 'Japanese Canteen Liverpool st'
+      fill_in 'Description', with: 'Still my favourite'
+      click_button 'Update Restaurant'
+      expect(page).to have_content 'Japanese Canteen Liverpool st Still my favourite'
     end
   end
 end
