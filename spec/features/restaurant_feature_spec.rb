@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 feature 'restaurants page' do
+  include RestaurantsHelper
+
   before do
     visit restaurants_path
   end
@@ -10,7 +12,7 @@ feature 'restaurants page' do
       expect(page).to have_content 'No restaurants yet'
     end
 
-    scenario 'displays a prompt to add a restaurant' do
+    scenario 'has a link to add a restaurant' do
       expect(page).to have_link 'Add a restaurant'
     end
   end
@@ -30,11 +32,38 @@ feature 'restaurants page' do
     end
   end
 
-  context 'adding restaurants in the frontend' do
-    scenario 'prompts user to fill out a form' do
+  context 'when adding a restaurant in the frontend' do
+    scenario 'has a form to fill in' do
       click_link 'Add a restaurant'
-      fill_in 'Name', with: 'Japanese Canteen'
-      click_button 'Create Restaurant'
+      expect(page).to have_field 'Name'
+      expect(page).to have_field 'Description'
+    end
+
+    scenario 'takes user back to restaurants page' do
+      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      expect(current_path).to eq restaurants_path
+    end
+
+    scenario 'shows the newly added restaurant' do
+      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      expect(page).to have_content 'Japanese Canteen'
+    end
+  end
+
+  context 'when clicking on a restaurant' do
+    let!(:jcan) {Restaurant.create name: 'Japanese Canteen'}
+
+    before do
+      visit restaurants_path
+      click_link 'Japanese Canteen'
+    end
+
+    scenario 'takes user to that restaurant\'s path' do
+      expect(current_path).to eq "/restaurants/#{jcan.id}"
+    end
+
+    scenario 'lets user view the restaurant' do
+      expect(page).to have_content 'Japanese Canteen'
     end
   end
 end
