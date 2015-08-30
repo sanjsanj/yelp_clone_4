@@ -15,9 +15,9 @@ feature 'restaurants page' do
     end
   end
 
-  context 'when restaurants are added to the backend' do
+  context 'when restaurants are added in the backend' do
     before do
-      Restaurant.create name: 'KFC'
+      Restaurant.create name: 'Japanese Canteen'
       visit restaurants_path
     end
 
@@ -26,7 +26,15 @@ feature 'restaurants page' do
     end
 
     scenario 'displays restaurant name' do
-      expect(page).to have_content 'KFC'
+      expect(page).to have_content 'Japanese Canteen'
+    end
+  end
+
+  context 'adding restaurants in the frontend' do
+    scenario 'prompts user to fill out a form' do
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'Japanese Canteen'
+      click_button 'Create Restaurant'
     end
   end
 end

@@ -1,4 +1,4 @@
-<a href='#'>Add a restaurant</a>
+<%= link_to 'Add a restaurant', new_restaurant_path, class: "button" %>
 
 <% if @restaurants.any? %>
   <% @restaurants.each do |restaurant| %>
