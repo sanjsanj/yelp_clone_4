@@ -84,4 +84,20 @@ feature 'restaurants page' do
       expect(page).to have_content 'Japanese Canteen Liverpool st Still my favourite'
     end
   end
+
+  context 'when deleting a restaurant' do
+    before do
+      add_a_restaurant 'Japanese Canteen', 'My favourite'
+    end
+
+    scenario 'the restaurant gets deleted' do
+      click_link 'Delete Japanese Canteen'
+      expect(page).to have_content 'No restaurants yet'
+    end
+
+    scenario 'informs user that restaurant was deleted' do
+      click_link 'Delete Japanese Canteen'
+      expect(page).to have_content 'Japanese Canteen deleted successfully'
+    end
+  end
 end
