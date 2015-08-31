@@ -1,5 +1,5 @@
 module RestaurantsHelper
-  def add_a_restaurant name, description
+  def add_a_restaurant name = 'Japanese Canteen', description = 'My favourite'
     visit restaurants_path
     click_link 'Add a restaurant'
     fill_in 'Name', with: name

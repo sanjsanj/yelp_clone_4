@@ -40,12 +40,12 @@ feature 'restaurants page' do
     end
 
     scenario 'takes user back to restaurants page' do
-      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      add_a_restaurant
       expect(current_path).to eq restaurants_path
     end
 
     scenario 'shows the newly added restaurant' do
-      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      add_a_restaurant
       expect(page).to have_content 'Japanese Canteen'
     end
   end
@@ -69,7 +69,7 @@ feature 'restaurants page' do
 
   context 'when updating a restaurant' do
     before do
-      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      add_a_restaurant
     end
 
     scenario 'takes user back to restaurants page' do
@@ -87,7 +87,7 @@ feature 'restaurants page' do
 
   context 'when deleting a restaurant' do
     before do
-      add_a_restaurant 'Japanese Canteen', 'My favourite'
+      add_a_restaurant
     end
 
     scenario 'the restaurant gets deleted' do
