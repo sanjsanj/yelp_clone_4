@@ -30,6 +30,11 @@ feature 'restaurants page' do
     scenario 'displays restaurant name' do
       expect(page).to have_content 'Japanese Canteen'
     end
+
+    scenario 'it is not valid unless it has a unique name' do
+      restaurant = Restaurant.new name: 'Japanese Canteen'
+      expect(restaurant).to have(1).error_on :name
+    end
   end
 
   context 'when adding a restaurant in the frontend' do
@@ -47,6 +52,12 @@ feature 'restaurants page' do
     scenario 'shows the newly added restaurant' do
       add_a_restaurant
       expect(page).to have_content 'Japanese Canteen'
+    end
+
+    scenario 'is not valid unless it has a unique name' do
+      add_a_restaurant
+      add_a_restaurant
+      expect(page).to have_content 'error'
     end
   end
 
