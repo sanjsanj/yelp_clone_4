@@ -17,27 +17,7 @@ feature 'restaurants page' do
     end
   end
 
-  context 'when adding a restaurant in the backend' do
-    before do
-      Restaurant.create name: 'Japanese Canteen'
-      visit restaurants_path
-    end
-
-    scenario 'does not say that no restaurants exist' do
-      expect(page).not_to have_content 'No restaurants yet'
-    end
-
-    scenario 'displays restaurant name' do
-      expect(page).to have_content 'Japanese Canteen'
-    end
-
-    scenario 'it is not valid unless it has a unique name' do
-      restaurant = Restaurant.new name: 'Japanese Canteen'
-      expect(restaurant).to have(1).error_on :name
-    end
-  end
-
-  context 'when adding a restaurant in the frontend' do
+  context 'when adding a restaurant' do
     scenario 'has a form to fill in' do
       click_link 'Add a restaurant'
       expect(page).to have_field 'Name'
@@ -49,7 +29,7 @@ feature 'restaurants page' do
       expect(current_path).to eq restaurants_path
     end
 
-    scenario 'shows the newly added restaurant' do
+    scenario 'shows the newly added restaurant\'s name' do
       add_a_restaurant
       expect(page).to have_content 'Japanese Canteen'
     end
